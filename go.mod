@@ -12,9 +12,10 @@ require (
 	github.com/onsi/ginkgo v1.8.0 // indirect
 	github.com/onsi/gomega v1.5.0 // indirect
 	github.com/opentracing/opentracing-go v1.1.1-0.20190913142402-a7454ce5950e
-	github.com/sirupsen/logrus v1.2.0 // indirect
+	github.com/prometheus/client_golang v0.9.3
 	github.com/spf13/cobra v0.0.5 // indirect
 	github.com/stretchr/testify v1.3.0 // indirect
+	go.opencensus.io v0.22.0
 	golang.org/x/crypto v0.0.0-20190424203555-c05e17bb3b2d // indirect
 	golang.org/x/sys v0.0.0-20190614160838-b47fdc937951 // indirect
 	golang.org/x/tools v0.0.0-20190920225731-5eefd052ad72
