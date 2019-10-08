@@ -26,9 +26,9 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"go.opencensus.io/metric/metricdata"
-	"go.opencensus.io/metric/metricexport"
-	"go.opencensus.io/stats/view"
+	"go.opentelemetry.io/sdk/internal"
+	"go.opentelemetry.io/sdk/metric/metricdata"
+	"go.opentelemetry.io/sdk/metric/metricexport"
 )
 
 // Exporter exports stats to Prometheus, users need
@@ -98,15 +98,6 @@ func (o *Options) onError(err error) {
 	} else {
 		log.Printf("Failed to export to Prometheus: %v", err)
 	}
-}
-
-// ExportView exports to the Prometheus if view data has one or more rows.
-// Each OpenCensus AggregationData will be converted to
-// corresponding Prometheus Metric: SumData will be converted
-// to Untyped Metric, CountData will be a Counter Metric,
-// DistributionData will be a Histogram Metric.
-// Deprecated in lieu of metricexport.Reader interface.
-func (e *Exporter) ExportView(vd *view.Data) {
 }
 
 // ServeHTTP serves the Prometheus endpoint.
@@ -203,7 +194,7 @@ func (me *descExporter) ExportMetrics(ctx context.Context, metrics []*metricdata
 
 func toPromLabels(mls []metricdata.LabelKey) (labels []string) {
 	for _, ml := range mls {
-		labels = append(labels, sanitize(ml.Key))
+		labels = append(labels, internal.Sanitize(ml.Key))
 	}
 	return labels
 }
@@ -213,7 +204,7 @@ func metricName(namespace string, m *metricdata.Metric) string {
 	if namespace != "" {
 		name = namespace + "_"
 	}
-	return name + sanitize(m.Descriptor.Name)
+	return name + internal.Sanitize(m.Descriptor.Name)
 }
 
 func toPromMetric(
